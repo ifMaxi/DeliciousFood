@@ -9,6 +9,5 @@ object Constants {
     const val BY_ID = "lookup.php"
     const val RANDOM_SINGLE = "random.php"
     const val MEAL_CATEGORIES = "categories.php"
-    const val ALL_CATEGORIES = "list.php"
     const val FILTER = "filter.php"
 }
