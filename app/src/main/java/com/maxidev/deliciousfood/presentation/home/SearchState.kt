@@ -1,4 +1,4 @@
-package com.maxidev.deliciousfood.presentation.search
+package com.maxidev.deliciousfood.presentation.home
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
