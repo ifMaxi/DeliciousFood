@@ -9,14 +9,17 @@ sealed class NavDestinations {
     data object HomeScreen : NavDestinations()
 
     @Serializable
-    data class DetailRemoteScreen(val id: String) : NavDestinations()
+    data object FavoritesScreen : NavDestinations()
 
     @Serializable
-    data object FavoritesScreen : NavDestinations()
+    data object CategoriesScreen : NavDestinations()
 
     @Serializable
     data class DetailLocalScreen(val id: String) : NavDestinations()
 
     @Serializable
-    data object CategoriesScreen : NavDestinations()
+    data class DetailRemoteScreen(val id: String) : NavDestinations()
+
+    @Serializable
+    data class FilterCategoryScreen(val category: String) : NavDestinations()
 }

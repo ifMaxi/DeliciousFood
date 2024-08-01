@@ -38,14 +38,15 @@ import com.maxidev.deliciousfood.presentation.components.TitleSectionItem
 @Composable
 fun CategoriesScreen(
     modifier: Modifier = Modifier,
-    viewModel: CategoriesViewModel
+    viewModel: CategoriesViewModel,
+    navigateToCategoryDetail: (String) -> Unit
 ) {
     val categoriesState = viewModel.flowCategories.collectAsLazyPagingItems()
 
     CategoriesContent(
         modifier = modifier,
         lazyPagingItems = categoriesState,
-        navigateToCategoryDetail = {}
+        navigateToCategoryDetail = navigateToCategoryDetail
     )
 }
 
@@ -67,9 +68,7 @@ private fun CategoriesContent(
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        item(
-            span = { GridItemSpan(maxLineSpan) }
-        ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
             TitleSectionItem(title = "Categories")
         }
         items(
@@ -81,7 +80,7 @@ private fun CategoriesContent(
                 CategoryInfoItem(
                     strCategory = info.strCategory,
                     strCategoryThumb = info.strCategoryThumb,
-                    onClick = { navigateToCategoryDetail(info.idCategory) }
+                    onClick = { navigateToCategoryDetail(info.strCategory) }
                 )
             }
         }

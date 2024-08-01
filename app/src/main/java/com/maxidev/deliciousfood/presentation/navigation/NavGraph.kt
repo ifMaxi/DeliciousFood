@@ -19,6 +19,8 @@ import com.maxidev.deliciousfood.presentation.detail.DetailRemoteScreen
 import com.maxidev.deliciousfood.presentation.detail.DetailsViewModel
 import com.maxidev.deliciousfood.presentation.favorite.FavoriteScreen
 import com.maxidev.deliciousfood.presentation.favorite.FavoriteViewModel
+import com.maxidev.deliciousfood.presentation.filters.by_category.FbCViewModel
+import com.maxidev.deliciousfood.presentation.filters.by_category.FbCategoryScreen
 import com.maxidev.deliciousfood.presentation.home.HomeScreen
 import com.maxidev.deliciousfood.presentation.home.HomeViewModel
 
@@ -57,9 +59,7 @@ fun NavGraph(
             FavoriteScreen(
                 viewModel = viewModel,
                 navigateToDetail = {
-                    navController.navigate(
-                        NavDestinations.DetailLocalScreen(id = it)
-                    )
+                    navController.navigate(NavDestinations.DetailLocalScreen(id = it))
                 }
             )
         }
@@ -85,7 +85,24 @@ fun NavGraph(
         composable<NavDestinations.CategoriesScreen> {
             val viewModel = hiltViewModel<CategoriesViewModel>()
 
-            CategoriesScreen(viewModel = viewModel)
+            CategoriesScreen(
+                viewModel = viewModel,
+                navigateToCategoryDetail = {
+                    navController.navigate(NavDestinations.FilterCategoryScreen(category = it))
+                }
+            )
+        }
+        composable<NavDestinations.FilterCategoryScreen> { backStackEntry ->
+            val viewModel = hiltViewModel<FbCViewModel>()
+            val args = backStackEntry.toRoute<NavDestinations.FilterCategoryScreen>().category
+
+            FbCategoryScreen(
+                viewmodel = viewModel,
+                category = args,
+                idMeal = {
+                    navController.navigate(NavDestinations.DetailRemoteScreen(id = it))
+                }
+            )
         }
     }
 }
