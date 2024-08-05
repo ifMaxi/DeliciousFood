@@ -37,8 +37,8 @@ fun RandomMealItem(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
+            //.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Text(

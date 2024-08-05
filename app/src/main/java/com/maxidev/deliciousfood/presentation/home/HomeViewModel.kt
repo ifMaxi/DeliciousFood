@@ -68,6 +68,9 @@ class HomeViewModel @Inject constructor(
             .collect { _searchedMeals.value = it }
     }
 
+    // Paged categories.
+    val flowCategories = repository.fetchCategories().cachedIn(viewModelScope)
+
     override fun onCleared() {
         super.onCleared()
         Log.i("HomeViewModel", "HomeViewModel destroyed.")

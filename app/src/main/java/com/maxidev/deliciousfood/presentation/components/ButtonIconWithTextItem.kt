@@ -1,4 +1,4 @@
-package com.maxidev.deliciousfood.presentation.home.components
+package com.maxidev.deliciousfood.presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ButtonBoxWithIconAndText(
+fun ButtonIconWithTextItem(
     modifier: Modifier = Modifier,
     text: String,
     icon: ImageVector,

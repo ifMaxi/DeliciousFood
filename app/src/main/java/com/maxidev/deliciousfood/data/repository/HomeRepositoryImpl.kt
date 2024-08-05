@@ -8,8 +8,11 @@ import androidx.paging.map
 import com.maxidev.deliciousfood.data.local.AppDataBase
 import com.maxidev.deliciousfood.data.remote.ApiService
 import com.maxidev.deliciousfood.data.repository.datasource.RandomMealDataSource
+import com.maxidev.deliciousfood.data.repository.paging.CategoriesRemoteMediator
 import com.maxidev.deliciousfood.data.repository.paging.SearchMealRemoteMediator
+import com.maxidev.deliciousfood.domain.mappers.asExternalModel
 import com.maxidev.deliciousfood.domain.mappers.toExternalModel
+import com.maxidev.deliciousfood.domain.model.CategoriesMeal
 import com.maxidev.deliciousfood.domain.model.RandomMeal
 import com.maxidev.deliciousfood.domain.model.SearchMeal
 import com.maxidev.deliciousfood.domain.repository.HomeRepository
@@ -45,6 +48,27 @@ class HomeRepositoryImpl @Inject constructor(
         ).flow
             .map { pagingData ->
                 pagingData.map { it.toExternalModel() }
+            }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun fetchCategories(): Flow<PagingData<CategoriesMeal>> {
+        val pagingSourceFactory = { database.categoriesDao().allCategories() }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false,
+                initialLoadSize = 1
+            ),
+            remoteMediator = CategoriesRemoteMediator(
+                dataBase = database,
+                api = api
+            ),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
+            .map { pagingData ->
+                pagingData.map { it.asExternalModel() }
             }
     }
 }

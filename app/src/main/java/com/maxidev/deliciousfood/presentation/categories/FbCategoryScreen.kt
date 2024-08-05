@@ -1,4 +1,4 @@
-package com.maxidev.deliciousfood.presentation.filters.by_category
+package com.maxidev.deliciousfood.presentation.categories
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
