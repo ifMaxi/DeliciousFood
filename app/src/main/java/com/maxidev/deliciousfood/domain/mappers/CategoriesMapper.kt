@@ -9,8 +9,7 @@ fun CategoriesDTO.asEntity() =
         CategoriesEntity(
             idCategory = data.idCategory,
             strCategory = data.strCategory,
-            strCategoryThumb = data.strCategoryThumb,
-            strCategoryDescription = data.strCategoryDescription
+            strCategoryThumb = data.strCategoryThumb
         )
     }
 
@@ -18,6 +17,5 @@ fun CategoriesEntity.asExternalModel() =
     CategoriesMeal(
         idCategory = idCategory,
         strCategory = strCategory,
-        strCategoryThumb = strCategoryThumb,
-        strCategoryDescription = strCategoryDescription
+        strCategoryThumb = strCategoryThumb
     )

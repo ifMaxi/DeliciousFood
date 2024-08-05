@@ -20,7 +20,7 @@ import com.maxidev.deliciousfood.data.local.entity.remote_key_entity.SearchMealR
         DetailsEntity::class,
         CategoriesEntity::class
                ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(Converter::class)
