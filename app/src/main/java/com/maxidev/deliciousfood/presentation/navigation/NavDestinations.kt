@@ -12,9 +12,6 @@ sealed class NavDestinations {
     data object FavoritesScreen : NavDestinations()
 
     @Serializable
-    data object CategoriesScreen : NavDestinations()
-
-    @Serializable
     data class DetailLocalScreen(val id: String) : NavDestinations()
 
     @Serializable

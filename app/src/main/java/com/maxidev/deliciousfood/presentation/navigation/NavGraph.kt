@@ -12,15 +12,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.maxidev.deliciousfood.presentation.categories.CategoriesScreen
-import com.maxidev.deliciousfood.presentation.categories.CategoriesViewModel
+import com.maxidev.deliciousfood.presentation.categories.FbCViewModel
+import com.maxidev.deliciousfood.presentation.categories.FbCategoryScreen
 import com.maxidev.deliciousfood.presentation.detail.DetailLocalScreen
 import com.maxidev.deliciousfood.presentation.detail.DetailRemoteScreen
 import com.maxidev.deliciousfood.presentation.detail.DetailsViewModel
 import com.maxidev.deliciousfood.presentation.favorite.FavoriteScreen
 import com.maxidev.deliciousfood.presentation.favorite.FavoriteViewModel
-import com.maxidev.deliciousfood.presentation.filters.by_category.FbCViewModel
-import com.maxidev.deliciousfood.presentation.filters.by_category.FbCategoryScreen
 import com.maxidev.deliciousfood.presentation.home.HomeScreen
 import com.maxidev.deliciousfood.presentation.home.HomeViewModel
 
@@ -39,6 +37,8 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
+
+        // Home.
         composable<NavDestinations.HomeScreen> {
             val viewModel = hiltViewModel<HomeViewModel>()
 
@@ -48,11 +48,13 @@ fun NavGraph(
                     navController.navigate(NavDestinations.DetailRemoteScreen(id = it))
                 },
                 navigateToFavorites = { navController.navigate(NavDestinations.FavoritesScreen) },
-                navigateToCategories = { navController.navigate(NavDestinations.CategoriesScreen) },
-                navigateToIngredients = { /*TODO: Navigate to ingredients.*/ },
-                navigateToArea = { /*TODO: Navigate to area.*/ }
+                navigateToCategoryDetail = {
+                    navController.navigate(NavDestinations.FilterCategoryScreen(category = it))
+                }
             )
         }
+
+        // Favorites.
         composable<NavDestinations.FavoritesScreen> {
             val viewModel = hiltViewModel<FavoriteViewModel>()
 
@@ -63,6 +65,8 @@ fun NavGraph(
                 }
             )
         }
+
+        // Detail remote.
         composable<NavDestinations.DetailRemoteScreen> { backStackEntry ->
             val viewModel = hiltViewModel<DetailsViewModel>()
             val args = backStackEntry.toRoute<NavDestinations.DetailRemoteScreen>().id
@@ -72,6 +76,8 @@ fun NavGraph(
                 id = args
             )
         }
+
+        // Detail local.
         composable<NavDestinations.DetailLocalScreen> { backStackEntry ->
             val viewModel = hiltViewModel<DetailsViewModel>()
             val args = backStackEntry.toRoute<NavDestinations.DetailLocalScreen>().id
@@ -82,16 +88,8 @@ fun NavGraph(
                 popBack = { navController.popBackStack() }
             )
         }
-        composable<NavDestinations.CategoriesScreen> {
-            val viewModel = hiltViewModel<CategoriesViewModel>()
 
-            CategoriesScreen(
-                viewModel = viewModel,
-                navigateToCategoryDetail = {
-                    navController.navigate(NavDestinations.FilterCategoryScreen(category = it))
-                }
-            )
-        }
+        // Filter by category.
         composable<NavDestinations.FilterCategoryScreen> { backStackEntry ->
             val viewModel = hiltViewModel<FbCViewModel>()
             val args = backStackEntry.toRoute<NavDestinations.FilterCategoryScreen>().category
