@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,31 +25,32 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.maxidev.deliciousfood.domain.model.RandomMeal
+import com.maxidev.deliciousfood.domain.model.RandomAndCategoryMeal
 import com.maxidev.deliciousfood.presentation.components.CoilItem
+import com.maxidev.deliciousfood.presentation.ui.theme.lobster
 
 // Renders the random item component. Contains a title about it that describes the section.
 @Composable
 fun RandomMealItem(
     modifier: Modifier = Modifier,
-    model: RandomMeal,
+    model: RandomAndCategoryMeal,
     navigateToDetail: (String) -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth(),
-            //.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Text(
             text = "Today's recipe",
             fontSize = 30.sp,
-            fontWeight = FontWeight.Black
+            fontFamily = lobster,
+            fontWeight = FontWeight.Bold
         )
         RandomItem(
             strMeal = model.strMeal,
             strMealThumb = model.strMealThumb,
-            navigateToDetail = { navigateToDetail(model.id) }
+            navigateToDetail = { navigateToDetail(model.idMeal) }
         )
     }
 }
@@ -64,17 +65,15 @@ private fun RandomItem(
     strMealThumb: String,
     navigateToDetail: () -> Unit
 ) {
-    Card(
+    OutlinedCard(
         modifier = modifier
             .fillMaxWidth(),
         onClick = navigateToDetail,
-        elevation = CardDefaults.cardElevation(8.dp),
+        elevation = CardDefaults.outlinedCardElevation(8.dp),
         shape = RoundedCornerShape(10),
         border = BorderStroke(1.dp, color = MaterialTheme.colorScheme.outline)
     ) {
-        Box(
-            contentAlignment = Alignment.BottomCenter
-        ) {
+        Box(contentAlignment = Alignment.BottomCenter) {
             CoilItem(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -92,7 +91,7 @@ private fun RandomItem(
                             brush = Brush.verticalGradient(
                                 colors = colors,
                                 startY = 0f,
-                                endY = 1100f
+                                endY = 1000f
                             ),
                             blendMode = BlendMode.DstIn
                         )
@@ -108,6 +107,7 @@ private fun RandomItem(
                 Text(
                     text = strMeal,
                     fontSize = 22.sp,
+                    fontFamily = lobster,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .fillMaxWidth()

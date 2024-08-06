@@ -1,5 +1,7 @@
-package com.maxidev.deliciousfood.presentation.home.components
+package com.maxidev.deliciousfood.presentation.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,15 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.maxidev.deliciousfood.presentation.components.CoilItem
 
 // When performing a search, this component will be displayed rendered on the screen.
 // It contains an image and a descriptive title.
@@ -39,22 +41,28 @@ fun SearchResulItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
+        Box(contentAlignment = Alignment.Center) {
             CoilItem(
                 imageUrl = strMealThumb,
                 modifier = Modifier
                     .size(width = 150.dp, height = 150.dp)
                     .clip(roundedCorner)
+                    .border(
+                        BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outline
+                        ),
+                        shape = roundedCorner
+                    )
             )
         }
         Text(
             text = strMeal,
-            fontSize = 18.sp,
             textAlign = TextAlign.Center,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .width(150.dp)
+                .width(130.dp)
         )
     }
 }

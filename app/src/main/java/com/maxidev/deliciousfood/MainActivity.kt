@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            DeliciousFoodTheme {
+            DeliciousFoodTheme(dynamicColor = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     NavGraph(modifier = Modifier.consumeWindowInsets(innerPadding))
                 }

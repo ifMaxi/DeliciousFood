@@ -1,6 +1,5 @@
 package com.maxidev.deliciousfood.presentation.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxidev.deliciousfood.domain.model.MealDetail
@@ -31,10 +30,6 @@ class DetailsViewModel @Inject constructor(
     val mealDetailById: StateFlow<List<MealDetail>>
         get() = _mealDetailById.asStateFlow()
 
-    init {
-        Log.i("DetailsViewModel", "ViewModel created.")
-    }
-
     fun contentDetails(id: String) = viewModelScope.launch {
         _loadState.value = DetailLoadingState.DetailLoading
 
@@ -50,7 +45,6 @@ class DetailsViewModel @Inject constructor(
     // Saves a copy of the recipe in the database, this enables viewing the copy offline later.
     // The saved item will be visible from the favorites tab.
     fun saveMeal() = viewModelScope.launch(ioDispatcher) {
-        Log.i("DetailsViewModel", "Item saved.")
         _loadState.value.let { state ->
             if (state is DetailLoadingState.Success) {
                 useCases.saveMeal(state.onSuccess)
@@ -61,20 +55,13 @@ class DetailsViewModel @Inject constructor(
     // Deletes the item from the database.
     fun delete(meal: MealDetail) =
         viewModelScope.launch(ioDispatcher) {
-            Log.i("DetailsViewModel", "Item deleted.")
             useCases.deleteMeal(meal)
         }
 
     // Get recipe from data base.
     fun getMealById(id: String) = viewModelScope.launch(ioDispatcher) {
-        Log.i("DetailsViewModel", "Data by Id loaded from data base.")
         useCases.getMealById(id).collect { detail ->
             _mealDetailById.value = detail
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.i("DetailsViewModel", "ViewModel destroyed.")
     }
 }

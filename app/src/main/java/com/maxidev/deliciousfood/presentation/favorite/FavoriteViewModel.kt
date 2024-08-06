@@ -1,6 +1,5 @@
 package com.maxidev.deliciousfood.presentation.favorite
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxidev.deliciousfood.domain.usecase.FavoriteUseCases
@@ -20,12 +19,8 @@ class FavoriteViewModel @Inject constructor(
 
     private val ioDispatcher = Dispatchers.IO
 
-    init {
-        Log.i("FavoriteViewModel", "ViewModel created.")
-    }
-
     val state: StateFlow<FavoriteState> =
-        favoriteUseCases.getMeals.invoke().map { FavoriteState(it) }
+        favoriteUseCases.getMeals().map { FavoriteState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000L),
@@ -33,11 +28,6 @@ class FavoriteViewModel @Inject constructor(
             )
 
     fun deleteAll() = viewModelScope.launch(ioDispatcher) {
-        favoriteUseCases.deleteAll.invoke()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.i("FavoriteViewModel", "ViewModel destroyed.")
+        favoriteUseCases.deleteAll()
     }
 }

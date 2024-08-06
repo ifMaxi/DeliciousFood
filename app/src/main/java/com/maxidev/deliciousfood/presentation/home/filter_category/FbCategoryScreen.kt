@@ -1,4 +1,4 @@
-package com.maxidev.deliciousfood.presentation.categories
+package com.maxidev.deliciousfood.presentation.home.filter_category
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,10 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import com.maxidev.deliciousfood.domain.model.FilterByCategory
+import com.maxidev.deliciousfood.domain.model.RandomAndCategoryMeal
+import com.maxidev.deliciousfood.presentation.components.SearchResulItem
 import com.maxidev.deliciousfood.presentation.components.TitleSectionItem
-import com.maxidev.deliciousfood.presentation.home.components.SearchResulItem
 
 @Composable
 fun FbCategoryScreen(
@@ -46,7 +47,7 @@ fun FbCategoryScreen(
 @Composable
 private fun FbCategoryContent(
     modifier: Modifier = Modifier,
-    lazyPagingItem: LazyPagingItems<FilterByCategory>,
+    lazyPagingItem: LazyPagingItems<RandomAndCategoryMeal>,
     lazyGridState: LazyGridState = rememberLazyGridState(),
     idMeal: (String) -> Unit,
     title: String
@@ -67,7 +68,8 @@ private fun FbCategoryContent(
         }
         items(
             count = rememberState.itemCount,
-            key = rememberState.itemKey { it.idMeal }
+            key = rememberState.itemKey { it.idMeal },
+            contentType = rememberState.itemContentType { it.strMeal }
         ) { data ->
             rememberState[data]?.let { info ->
                 SearchResulItem(

@@ -48,7 +48,6 @@ fun SearchBarItem(
     ) {
         SearchBar(
             modifier = Modifier
-                //.fillMaxWidth()
                 .align(Alignment.TopCenter)
                 .focusRequester(focusRequester),
             query = value,
