@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.filter
 import com.maxidev.deliciousfood.data.remote.ApiService
 import com.maxidev.deliciousfood.data.repository.paging.FilterByCategoryPagingSource
-import com.maxidev.deliciousfood.domain.model.FilterByCategory
+import com.maxidev.deliciousfood.domain.model.RandomAndCategoryMeal
 import com.maxidev.deliciousfood.domain.repository.FilterByRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,7 +16,7 @@ class FilterByRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ): FilterByRepository {
 
-    override fun fetchFilterByCategory(c: String): Flow<PagingData<FilterByCategory>> {
+    override fun fetchFilterByCategory(c: String): Flow<PagingData<RandomAndCategoryMeal>> {
         val pagingSourceFactory = {
             FilterByCategoryPagingSource(
                 category = c,

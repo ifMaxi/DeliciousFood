@@ -12,8 +12,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.maxidev.deliciousfood.presentation.categories.FbCViewModel
-import com.maxidev.deliciousfood.presentation.categories.FbCategoryScreen
+import com.maxidev.deliciousfood.presentation.home.filter_category.FbCViewModel
+import com.maxidev.deliciousfood.presentation.home.filter_category.FbCategoryScreen
 import com.maxidev.deliciousfood.presentation.detail.DetailLocalScreen
 import com.maxidev.deliciousfood.presentation.detail.DetailRemoteScreen
 import com.maxidev.deliciousfood.presentation.detail.DetailsViewModel

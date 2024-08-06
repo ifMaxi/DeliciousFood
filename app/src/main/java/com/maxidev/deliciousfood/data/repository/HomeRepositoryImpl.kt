@@ -4,16 +4,16 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.filter
 import androidx.paging.map
 import com.maxidev.deliciousfood.data.local.AppDataBase
 import com.maxidev.deliciousfood.data.remote.ApiService
 import com.maxidev.deliciousfood.data.repository.datasource.RandomMealDataSource
-import com.maxidev.deliciousfood.data.repository.paging.CategoriesRemoteMediator
+import com.maxidev.deliciousfood.data.repository.paging.CategoriesPagingSource
 import com.maxidev.deliciousfood.data.repository.paging.SearchMealRemoteMediator
-import com.maxidev.deliciousfood.domain.mappers.asExternalModel
 import com.maxidev.deliciousfood.domain.mappers.toExternalModel
 import com.maxidev.deliciousfood.domain.model.CategoriesMeal
-import com.maxidev.deliciousfood.domain.model.RandomMeal
+import com.maxidev.deliciousfood.domain.model.RandomAndCategoryMeal
 import com.maxidev.deliciousfood.domain.model.SearchMeal
 import com.maxidev.deliciousfood.domain.repository.HomeRepository
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +26,7 @@ class HomeRepositoryImpl @Inject constructor(
     private val database: AppDataBase
 ): HomeRepository {
 
-    override suspend fun fetchRandomMeal(): RandomMeal =
+    override suspend fun fetchRandomMeal(): RandomAndCategoryMeal =
         randomMealDataSource.dataSourceRandomMeal()
 
     @OptIn(ExperimentalPagingApi::class)
@@ -51,9 +51,8 @@ class HomeRepositoryImpl @Inject constructor(
             }
     }
 
-    @OptIn(ExperimentalPagingApi::class)
     override fun fetchCategories(): Flow<PagingData<CategoriesMeal>> {
-        val pagingSourceFactory = { database.categoriesDao().allCategories() }
+        val pagingSourceFactory = { CategoriesPagingSource(apiService = api) }
 
         return Pager(
             config = PagingConfig(
@@ -61,14 +60,16 @@ class HomeRepositoryImpl @Inject constructor(
                 enablePlaceholders = false,
                 initialLoadSize = 1
             ),
-            remoteMediator = CategoriesRemoteMediator(
-                dataBase = database,
-                api = api
-            ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
-            .map { pagingData ->
-                pagingData.map { it.asExternalModel() }
+            .map {
+                val filteredResponse = mutableSetOf<String>()
+
+                it.filter { data ->
+                    if (filteredResponse.contains(data.idCategory)) false else {
+                        filteredResponse.add(data.idCategory)
+                    }
+                }
             }
     }
 }

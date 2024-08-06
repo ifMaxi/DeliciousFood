@@ -29,7 +29,7 @@ interface ApiService {
 
     @GET(MEAL_CATEGORIES)
     suspend fun getCategories(
-        @Query("page") page: String?
+        @Query("page") page: Int?
     ): CategoriesDTO
 
     @GET(FILTER)

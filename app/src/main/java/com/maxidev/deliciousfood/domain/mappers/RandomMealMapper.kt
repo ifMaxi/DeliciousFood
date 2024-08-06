@@ -1,12 +1,12 @@
 package com.maxidev.deliciousfood.domain.mappers
 
 import com.maxidev.deliciousfood.data.remote.dto.MealDTO
-import com.maxidev.deliciousfood.domain.model.RandomMeal
+import com.maxidev.deliciousfood.domain.model.RandomAndCategoryMeal
 
-fun MealDTO.toRandomExternalModel() =
+fun MealDTO.toExternalModel() =
     this.meals?.firstOrNull().let { data ->
-        RandomMeal(
-            id = data?.idMeal.toString(),
+        RandomAndCategoryMeal(
+            idMeal = data?.idMeal.toString(),
             strMeal = data?.strMeal.toString(),
             strMealThumb = data?.strMealThumb.toString()
         )
