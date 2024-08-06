@@ -1,7 +1,4 @@
 <resources>
     <string name="app_name">Delicious Food</string>
 
-    <string name="home_screen">Home</string>
-    <string name="search_screen">Search</string>
-    <string name="favorites_screen">Favorites</string>
 </resources>

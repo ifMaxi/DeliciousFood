@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.maxidev.deliciousfood.presentation.ui.theme.openSans
 
 @Composable
 fun ButtonIconWithTextItem(
@@ -42,7 +43,8 @@ fun ButtonIconWithTextItem(
         Spacer(modifier = Modifier.width(10.dp))
         Text(
             text = text,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            fontFamily = openSans
         )
     }
 }
