@@ -17,6 +17,7 @@ import com.maxidev.deliciousfood.domain.model.RandomAndCategoryMeal
 import com.maxidev.deliciousfood.domain.model.SearchMeal
 import com.maxidev.deliciousfood.domain.repository.HomeRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -49,6 +50,7 @@ class HomeRepositoryImpl @Inject constructor(
             .map { pagingData ->
                 pagingData.map { it.toExternalModel() }
             }
+            .catch { if (s.isBlank()) throw it else emit(PagingData.empty()) }
     }
 
     override fun fetchCategories(): Flow<PagingData<CategoriesMeal>> {
