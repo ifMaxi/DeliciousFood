@@ -11,6 +11,7 @@ import com.maxidev.deliciousfood.domain.model.RandomAndCategoryMeal
 import com.maxidev.deliciousfood.domain.model.SearchMeal
 import com.maxidev.deliciousfood.domain.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,7 +26,7 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _randomLoadState: MutableStateFlow<LoadingState> =
-        MutableStateFlow(LoadingState.Success(RandomAndCategoryMeal()))
+        MutableStateFlow(LoadingState.Success(onSuccess = RandomAndCategoryMeal()))
     val randomLoadState: StateFlow<LoadingState>
         get() = _randomLoadState.asStateFlow()
 
@@ -41,6 +42,7 @@ class HomeViewModel @Inject constructor(
 
     // Random meal.
     private fun loadStateHome() = viewModelScope.launch {
+        delay(1500L)
         _randomLoadState.value = try {
             LoadingState.Success(onSuccess = repository.fetchRandomMeal())
         } catch (e: IOException) {

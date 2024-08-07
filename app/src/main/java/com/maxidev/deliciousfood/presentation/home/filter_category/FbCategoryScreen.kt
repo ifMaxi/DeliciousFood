@@ -13,11 +13,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.maxidev.deliciousfood.R
 import com.maxidev.deliciousfood.domain.model.RandomAndCategoryMeal
+import com.maxidev.deliciousfood.presentation.components.LoadStateScreen
 import com.maxidev.deliciousfood.presentation.components.SearchResulItem
 import com.maxidev.deliciousfood.presentation.components.TitleSectionItem
 
@@ -54,29 +57,36 @@ private fun FbCategoryContent(
 ) {
     val rememberState = remember(lazyPagingItem) { lazyPagingItem }
 
-    LazyVerticalGrid(
-        modifier = modifier
-            .fillMaxSize(),
-        columns = GridCells.Adaptive(170.dp),
-        state = lazyGridState,
-        contentPadding = PaddingValues(24.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-        horizontalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            TitleSectionItem(title = title)
+    when {
+        rememberState.loadState.refresh is LoadState.Loading -> {
+            LoadStateScreen(animation = R.raw.dots_loading, text = null)
         }
-        items(
-            count = rememberState.itemCount,
-            key = rememberState.itemKey { it.idMeal },
-            contentType = rememberState.itemContentType { it.strMeal }
-        ) { data ->
-            rememberState[data]?.let { info ->
-                SearchResulItem(
-                    strMeal = info.strMeal,
-                    strMealThumb = info.strMealThumb,
-                    mealId = { idMeal(info.idMeal) }
-                )
+        else -> {
+            LazyVerticalGrid(
+                modifier = modifier
+                    .fillMaxSize(),
+                columns = GridCells.Adaptive(170.dp),
+                state = lazyGridState,
+                contentPadding = PaddingValues(24.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    TitleSectionItem(title = title)
+                }
+                items(
+                    count = rememberState.itemCount,
+                    key = rememberState.itemKey { it.idMeal },
+                    contentType = rememberState.itemContentType { it.strMeal }
+                ) { data ->
+                    rememberState[data]?.let { info ->
+                        SearchResulItem(
+                            strMeal = info.strMeal,
+                            strMealThumb = info.strMealThumb,
+                            mealId = { idMeal(info.idMeal) }
+                        )
+                    }
+                }
             }
         }
     }

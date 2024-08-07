@@ -12,7 +12,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,7 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.maxidev.deliciousfood.R
 import com.maxidev.deliciousfood.domain.model.MealDetail
+import com.maxidev.deliciousfood.presentation.components.LoadStateScreen
 import com.maxidev.deliciousfood.presentation.detail.components.ActionButtons
 import com.maxidev.deliciousfood.presentation.detail.components.ImageItem
 import com.maxidev.deliciousfood.presentation.detail.components.IngredientsAndQuantitiesItem
@@ -75,8 +76,12 @@ private fun LoadingStates(
     onClick: () -> Unit
 ) {
     when (state) {
-        is DetailLoadingState.Error -> Text(text = "Error")
-        DetailLoadingState.DetailLoading -> Text(text = "Loading")
+        is DetailLoadingState.Error -> {
+            LoadStateScreen(animation = R.raw.disconnected_anim, text = "Ups!")
+        }
+        DetailLoadingState.DetailLoading -> {
+            LoadStateScreen(animation = R.raw.dots_loading, text = null)
+        }
         is DetailLoadingState.Success -> {
             DetailRemoteContent(
                 modifier = modifier,

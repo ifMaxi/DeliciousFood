@@ -6,6 +6,7 @@ import com.maxidev.deliciousfood.domain.model.MealDetail
 import com.maxidev.deliciousfood.domain.usecase.DetailsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,7 +33,7 @@ class DetailsViewModel @Inject constructor(
 
     fun contentDetails(id: String) = viewModelScope.launch {
         _loadState.value = DetailLoadingState.DetailLoading
-
+        delay(1500L)
         _loadState.value = try {
             DetailLoadingState.Success(onSuccess = useCases.getDetails.invoke(id))
         } catch (e: HttpException) {

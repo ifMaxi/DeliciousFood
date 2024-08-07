@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,12 +22,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.maxidev.deliciousfood.R
 import com.maxidev.deliciousfood.domain.model.CategoriesMeal
 import com.maxidev.deliciousfood.domain.model.SearchMeal
+import com.maxidev.deliciousfood.presentation.components.LoadStateScreen
 import com.maxidev.deliciousfood.presentation.components.SearchBarItem
 import com.maxidev.deliciousfood.presentation.components.SearchResulItem
 import com.maxidev.deliciousfood.presentation.components.TitleSectionItem
@@ -116,44 +118,53 @@ private fun ContentLoaded(
 ) {
     val rememberState = remember(lazyPagingItems) { lazyPagingItems }
 
-    LazyVerticalGrid(
-        modifier = modifier
-            .fillMaxSize(),
-        state = lazyState,
-        columns = GridCells.Adaptive(170.dp),
-        horizontalArrangement = Arrangement.spacedBy(20.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-        contentPadding = PaddingValues(24.dp)
-    ) {
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            when (randomState) {
-                is LoadingState.Error -> Text(text = randomState.onError.message.toString())
-                is LoadingState.Success -> {
-                    RandomMealItem(
-                        modifier = Modifier,
-                        model = randomState.onSuccess,
-                        navigateToDetail = navigateToDetail
-                    )
+    when {
+        rememberState.loadState.refresh is LoadState.Loading -> {
+            LoadStateScreen(animation = R.raw.dots_loading, text = null)
+        }
+        else -> {
+            LazyVerticalGrid(
+                modifier = modifier
+                    .fillMaxSize(),
+                state = lazyState,
+                columns = GridCells.Adaptive(170.dp),
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                contentPadding = PaddingValues(24.dp)
+            ) {
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    when (randomState) {
+                        is LoadingState.Error -> {
+                            LoadStateScreen(animation = null, text = "Something went wrong.")
+                        }
+                        is LoadingState.Success -> {
+                            RandomMealItem(
+                                modifier = Modifier,
+                                model = randomState.onSuccess,
+                                navigateToDetail = navigateToDetail
+                            )
+                        }
+                    }
                 }
-            }
-        }
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            FavoriteButton(navigateToFavorites = navigateToFavorites)
-        }
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            TitleSectionItem(title = "Categories")
-        }
-        items(
-            count = rememberState.itemCount,
-            key = rememberState.itemKey { it.idCategory },
-            contentType = rememberState.itemContentType { it.idCategory }
-        ) { data ->
-            rememberState[data]?.let { info ->
-                CategorySectionItem(
-                    strCategory = info.strCategory,
-                    strCategoryThumb = info.strCategoryThumb,
-                    onClick = { navigateToCategoryDetail(info.strCategory) }
-                )
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    FavoriteButton(navigateToFavorites = navigateToFavorites)
+                }
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    TitleSectionItem(title = "Categories")
+                }
+                items(
+                    count = rememberState.itemCount,
+                    key = rememberState.itemKey { it.idCategory },
+                    contentType = rememberState.itemContentType { it.idCategory }
+                ) { data ->
+                    rememberState[data]?.let { info ->
+                        CategorySectionItem(
+                            strCategory = info.strCategory,
+                            strCategoryThumb = info.strCategoryThumb,
+                            onClick = { navigateToCategoryDetail(info.strCategory) }
+                        )
+                    }
+                }
             }
         }
     }
@@ -169,26 +180,38 @@ private fun PagingContent(
 ) {
     val lazyPagingState = remember(lazyPagingModel) { lazyPagingModel }
 
-    LazyVerticalGrid(
-        modifier = modifier
-            .fillMaxSize(),
-        columns = GridCells.Adaptive(150.dp),
-        state = lazyGridState,
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        items(
-            count = lazyPagingState.itemCount,
-            key = lazyPagingState.itemKey { it.idMeal },
-            contentType = lazyPagingState.itemContentType { it.strMeal }
-        ) { data ->
-            lazyPagingState[data]?.let { info ->
-                SearchResulItem(
-                    strMeal = info.strMeal,
-                    strMealThumb = info.strMealThumb,
-                    mealId = { mealId(info.idMeal) }
-                )
+    when (lazyPagingState.loadState.refresh) {
+        is LoadState.Loading -> {
+            LoadStateScreen(animation = R.raw.search_n, text = null)
+        }
+
+        is LoadState.Error -> {
+            LoadStateScreen(animation = R.raw.disconnected_anim, text = "Ups!")
+        }
+
+        else -> {
+            LazyVerticalGrid(
+                modifier = modifier
+                    .fillMaxSize(),
+                columns = GridCells.Adaptive(150.dp),
+                state = lazyGridState,
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(
+                    count = lazyPagingState.itemCount,
+                    key = lazyPagingState.itemKey { it.idMeal },
+                    contentType = lazyPagingState.itemContentType { it.strMeal }
+                ) { data ->
+                    lazyPagingState[data]?.let { info ->
+                        SearchResulItem(
+                            strMeal = info.strMeal,
+                            strMealThumb = info.strMealThumb,
+                            mealId = { mealId(info.idMeal) }
+                        )
+                    }
+                }
             }
         }
     }
