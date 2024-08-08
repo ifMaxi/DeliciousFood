@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.maxidev.deliciousfood"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.maxidev.deliciousfood"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
