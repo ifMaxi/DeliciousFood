@@ -39,6 +39,8 @@ Its main screen contains 4 main components:
 - **The favorites button**: When pressed, it navigates to a screen with a list of all the objects stored in the app's database. Selecting an object navigates to the details screen. The great advantage of this component is that it is available offline.
 - **And the categories section**: Located at the bottom of the screen is a section with different categories for recipes. Selecting an item navigates to a screen displaying a list of items with all the recipes in the selected category. In turn, when a recipe is selected, it navigates to the details screen.
 
+It also has a details screen, which contains useful information about the selected recipe: a photo, the ingredients and their quantities, preparation instructions and three buttons whose function is to save/delete the item from the database, a link with an intent that opens the browser to see the origin of the recipe and a link that opens the YouTube app with an explanation of the recipe.
+
 ![NavGraph](https://github.com/user-attachments/assets/05c2bd8f-e962-4b90-bdbb-70c079b2cc1e)
 
 ## Language and libraries
