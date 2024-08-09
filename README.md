@@ -68,4 +68,22 @@ It also has a details screen, which contains useful information about the select
 
 ## Captures
 
-TODO: Captures
+| Home | Search |
+| ------------- | ------------ |
+| <img src="https://github.com/user-attachments/assets/2d82b896-c93b-4543-8d59-a26e6f50a60e" width="290" height="600"> | <img src="https://github.com/user-attachments/assets/4402abc3-118b-487a-b33f-33e628a8fda1" width="290" height="600"> |
+
+| Category List | Favorites |
+| ------------- | ------------ |
+| <img src="https://github.com/user-attachments/assets/6c1b5576-df02-460a-9d7c-2f48fb914e51" width="290" height="600"> | <img src="https://github.com/user-attachments/assets/c2698d07-6ae3-4168-a5f5-1ab50b9722eb" width="290" height="600"> |
+
+| Details (TOP) | Details (Bottom) |
+| ------------- | ------------ |
+| <img src="https://github.com/user-attachments/assets/d6a7043e-955a-4e40-9f42-3f3c03d0052e" width="290" height="600"> | <img src="https://github.com/user-attachments/assets/16841a99-affe-45b1-ae63-3ae1c6cd036b" width="290" height="600"> |
+
+| Home (Dark mode) | Favorite (Dark mode) |
+| ------------- | ------------ |
+| <img src="https://github.com/user-attachments/assets/42cf4cdb-5186-4f84-9118-018a59684754" width="290" height="600"> | <img src="https://github.com/user-attachments/assets/244cd066-12fd-4956-8d7b-228eee415666" width="290" height="600"> |
+
+| Details (Dark mode) |
+| ------------- |
+| <img src="https://github.com/user-attachments/assets/a9fc3ec0-9c06-4eb0-b737-263950196fad" width="290" height="600"> |
