@@ -28,15 +28,28 @@ This is divided into:
 
 The API used is from [The Meal database API](https://www.themealdb.com/api.php). It uses several endpoints such as search, categories and others.
 
+## Navigation
+
+Navigation graph describing the flow of the app. 
+
+Its main screen contains 4 main components: 
+
+- **A search engine**: The search component activates when you place a query or its initial letter, displaying a list of 25 objects with the search matches. When you select a recipe, it navigates to the details screen displaying useful information.
+- **A random recipe component**: Displays a random object every time the app is launched, selecting it navigates to the details screen.
+- **The favorites button**: When pressed, it navigates to a screen with a list of all the objects stored in the app's database. Selecting an object navigates to the details screen. The great advantage of this component is that it is available offline.
+- **And the categories section**: Located at the bottom of the screen is a section with different categories for recipes. Selecting an item navigates to a screen displaying a list of items with all the recipes in the selected category. In turn, when a recipe is selected, it navigates to the details screen.
+
+![NavGraph](https://github.com/user-attachments/assets/05c2bd8f-e962-4b90-bdbb-70c079b2cc1e)
+
 ## Language and libraries
 
-- Kotlin
+- **Kotlin**
   - Serialization
   - Coroutines
   - Kps
-- Android
+- **Android**
   - Intents
-- Jetpack Libraries
+- **Jetpack Libraries**
   - Compose
   - Material 3
   - Hilt
@@ -45,15 +58,11 @@ The API used is from [The Meal database API](https://www.themealdb.com/api.php).
   - Room database
   - Paging 3
     - Remote mediator
-- Other libraries
+- **Other libraries**
   - Retrofit
   - OkHttp
   - Coil
   - Lottie
-
-## Navigation
-
-TODO: Navigation graph
 
 ## Captures
 
